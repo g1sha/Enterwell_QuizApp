@@ -7,6 +7,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		compose.yaml = compose.yaml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{CA9AD03C-069C-4C64-A853-68B0E677C8A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{DF2B9C8D-EAC3-4056-B366-4D1AA01743BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,5 +21,13 @@ Global
 		{9936F54F-8229-40BE-B1EE-BB00523D0346}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9936F54F-8229-40BE-B1EE-BB00523D0346}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9936F54F-8229-40BE-B1EE-BB00523D0346}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA9AD03C-069C-4C64-A853-68B0E677C8A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA9AD03C-069C-4C64-A853-68B0E677C8A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA9AD03C-069C-4C64-A853-68B0E677C8A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA9AD03C-069C-4C64-A853-68B0E677C8A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF2B9C8D-EAC3-4056-B366-4D1AA01743BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF2B9C8D-EAC3-4056-B366-4D1AA01743BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF2B9C8D-EAC3-4056-B366-4D1AA01743BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF2B9C8D-EAC3-4056-B366-4D1AA01743BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
