@@ -1,14 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Core.Constants;
 
 namespace Core.DTOs.Question;
 
 public class CreateQuestionDto
 {
-    [Required(ErrorMessage = "Question text is required !")]
-    [StringLength(500, MinimumLength = 10, ErrorMessage = "Question must be between 10 and 500 characters !")]
+    [Required(ErrorMessage = ValidationMessages.QuestionTextRequired)]
+    [StringLength(500, MinimumLength = 10, ErrorMessage = ValidationMessages.QuestionTextLength)]
     public string Text { get; set; }
 
-    [Required(ErrorMessage = "Correct answer is required !")]
+    [Required(ErrorMessage = ValidationMessages.QuestionCorrectAnswerRequired)]
+    [StringLength(500, MinimumLength = 1, ErrorMessage = ValidationMessages.QuestionCorrectAnswerLength)]
     public string CorrectAnswer { get; set; }
 }
 
