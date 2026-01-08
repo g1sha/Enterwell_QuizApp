@@ -52,8 +52,12 @@ public class QuizzesController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteQuiz(int id)
     {
-        await _quizService.DeleteQuizAsync(id);
-        return NoContent();
+        var deleted= await _quizService.DeleteQuizAsync(id);
+        if (deleted)
+        {
+            return NoContent();
+        }
+        return NotFound();
     }
 }
 

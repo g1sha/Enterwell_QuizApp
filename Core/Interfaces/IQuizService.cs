@@ -9,7 +9,7 @@ public interface IQuizService
     Task<QuizDto?> GetQuizByIdAsync(int id);
     Task<QuizDto> CreateQuizAsync(CreateQuizDto quiz);
     Task<QuizDto?> UpdateQuizAsync(int id, UpdateQuizDto quiz);
-    Task DeleteQuizAsync(int id);
+    Task<bool> DeleteQuizAsync(int id);
 }
 
 

@@ -6,18 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services;
 
-public class QuestionService : IQuestionService
+public class QuestionService(QuizContext context) : IQuestionService
 {
-    private readonly QuizContext _context;
-
-    public QuestionService(QuizContext context)
-    {
-        _context = context;
-    }
-
     public async Task<IEnumerable<QuestionDto>> GetAllQuestionsAsync()
     {
-        return await _context.Questions.Select(q => new QuestionDto
+        return await context.Questions.Select(q => new QuestionDto
         {
             Id = q.Id,
             Text = q.Text,
@@ -27,7 +20,7 @@ public class QuestionService : IQuestionService
 
     public async Task<QuestionDto?> GetQuestionByIdAsync(int id)
     {
-        return await _context.Questions.FindAsync(id) is Question question
+        return await context.Questions.FindAsync(id) is Question question
             ? new QuestionDto
             {
                 Id = question.Id,
@@ -45,8 +38,8 @@ public class QuestionService : IQuestionService
             CorrectAnswer = question.CorrectAnswer,
         };
     
-        _context.Questions.Add(newQuestion);
-        await _context.SaveChangesAsync();
+        context.Questions.Add(newQuestion);
+        await context.SaveChangesAsync();
     
         return new QuestionDto
         {
@@ -58,7 +51,7 @@ public class QuestionService : IQuestionService
 
     public async Task<QuestionDto?> UpdateQuestionAsync(int id, UpdateQuestionDto question)
     {
-        var existingQuestion = await _context.Questions.FindAsync(id);
+        var existingQuestion = await context.Questions.FindAsync(id);
         if (existingQuestion == null)
         {
             return null;
@@ -68,7 +61,7 @@ public class QuestionService : IQuestionService
         existingQuestion.CorrectAnswer = question.CorrectAnswer;
         existingQuestion.UpdatedAt = DateTime.Now;
 
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
         
         return new QuestionDto()
         {
