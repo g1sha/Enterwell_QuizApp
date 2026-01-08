@@ -7,6 +7,4 @@ public class QuizQuestion : BaseEntity
     
     public int QuestionId { get; set; }
     public required Question Question { get; set; }
-
-    public int Position { get; set; } // Za rangiranje pitanja
 }

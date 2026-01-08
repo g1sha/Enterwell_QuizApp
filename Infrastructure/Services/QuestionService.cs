@@ -15,7 +15,7 @@ public class QuestionService(QuizContext context) : IQuestionService
             Id = q.Id,
             Text = q.Text,
             CorrectAnswer = q.CorrectAnswer,
-        }).ToListAsync<QuestionDto>();
+        }).ToListAsync();
     }
 
     public async Task<QuestionDto?> GetQuestionByIdAsync(int id)
@@ -51,15 +51,15 @@ public class QuestionService(QuizContext context) : IQuestionService
 
     public async Task<QuestionDto?> UpdateQuestionAsync(int id, UpdateQuestionDto question)
     {
-        var existingQuestion = await context.Questions.FindAsync(id);
+        var existingQuestion = await context.Questions.FirstOrDefaultAsync(q => q.Id == id);
         if (existingQuestion == null)
         {
             return null;
         }
 
-        existingQuestion.Text = question.Text;
+        existingQuestion.Text = question.Text; 
         existingQuestion.CorrectAnswer = question.CorrectAnswer;
-        existingQuestion.UpdatedAt = DateTime.Now;
+        existingQuestion.MarkAsUpdated();
 
         await context.SaveChangesAsync();
         
