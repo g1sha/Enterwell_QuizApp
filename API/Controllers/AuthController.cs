@@ -23,7 +23,7 @@ public class AuthController(AuthService authService) : ControllerBase
         var result=await authService.RegisterAsync(dto);
         if (!result.IsSuccessful)
             return BadRequest(new { result.Errors});
-        return Ok(new { result});
+        return Ok(new { message = "Registration successful !" });
     }
 
     [HttpPost("login")]
@@ -32,6 +32,15 @@ public class AuthController(AuthService authService) : ControllerBase
         var result = await authService.LoginAsync(dto);
         if (!result.IsSuccessful)
             return BadRequest(new { result.Errors});
-        return Ok(new { result.Token });
-}
+        return Ok(new { result.Token, result.RefreshToken }); 
+    }
+    
+    [HttpPost("refresh")]
+    public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+    {
+        var result = await authService.RefreshTokenAsync(request.RefreshToken);
+        if (!result.IsSuccessful)
+            return Unauthorized(new { result.Errors });
+        return Ok(new { result.Token, result.RefreshToken });
+    }
 }
