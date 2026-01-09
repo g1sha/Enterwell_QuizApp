@@ -5,6 +5,7 @@ using Core.Entities;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -19,7 +20,9 @@ public class AuthService(UserManager<User> userManager, IConfiguration configura
             Email = dto.Email,
             FirstName = dto.FirstName,
             LastName =  dto.LastName,
-            UserName = dto.Email
+            UserName = dto.Email,
+            RefreshToken = GenerateRefreshToken(),
+            RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7)
         };
         var result = await userManager.CreateAsync(user, dto.Password);
         if (!result.Succeeded)
@@ -38,9 +41,13 @@ public class AuthService(UserManager<User> userManager, IConfiguration configura
         if (!passwordValid)
             return new AuthResult{IsSuccessful = false, Errors = new List<string>{"Invalid password."}};
 
+        user.LastLoginAt= DateTime.UtcNow;
+        user.RefreshToken = GenerateRefreshToken();
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+        await userManager.UpdateAsync(user);
         
-        var token = GenerateJwtToken(user);
-        return new AuthResult{IsSuccessful = true, Token = $"Bearer {await token}"};
+        var token = await GenerateJwtToken(user);
+        return new AuthResult{IsSuccessful = true, Token = $"Bearer {token}", RefreshToken = user.RefreshToken};
     }
     
     private async Task<string> GenerateJwtToken(User user)
@@ -48,7 +55,7 @@ public class AuthService(UserManager<User> userManager, IConfiguration configura
         var claims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
             new Claim(JwtRegisteredClaimNames.NameId, $"{user.FirstName} {user.LastName}"),
         };
@@ -67,5 +74,29 @@ public class AuthService(UserManager<User> userManager, IConfiguration configura
             signingCredentials: creds
         );
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+    
+    private string GenerateRefreshToken()
+    {
+        var randomNumber = new byte[512];
+        using var rng = System.Security.Cryptography.RandomNumberGenerator.Create();
+        rng.GetBytes(randomNumber);
+        return Convert.ToBase64String(randomNumber);
+    }
+    
+    public async Task<AuthResult> RefreshTokenAsync(string refreshToken)
+    {
+        var user = await userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+        if (user == null || user.RefreshTokenExpiryTime < DateTime.UtcNow)
+            return new AuthResult { IsSuccessful = false, Errors = new List<string> { "Invalid or expired refresh token !" } };
+
+        var token = await GenerateJwtToken(user);
+        
+        //Rotate refresh token
+        user.RefreshToken = GenerateRefreshToken();
+        user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
+        await userManager.UpdateAsync(user);
+        
+        return new AuthResult { IsSuccessful = true, Token = $"Bearer {token}", RefreshToken = user.RefreshToken };
     }
 }
