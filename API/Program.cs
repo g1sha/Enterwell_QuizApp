@@ -11,10 +11,16 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 
 // Services
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSwaggerGen( swgr=>
+{
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    swgr.IncludeXmlComments(xmlPath);
+});
+
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddIdentityCore<User>(options =>
     {
@@ -49,6 +55,11 @@ builder.Services.AddDbContext<QuizContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+//Export service factory
+var pluginPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins", "Export");
+Directory.CreateDirectory(pluginPath);
+builder.Services.AddSingleton<IExportServiceFactory>(new ExportServiceFactory(pluginPath));
 
 // Application services
 builder.Services.AddScoped<IQuestionService, QuestionService>();

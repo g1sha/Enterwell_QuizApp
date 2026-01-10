@@ -5,6 +5,8 @@ namespace Infrastructure.Extensions;
 
 public static class PaginationExtensions
 {
+    // Extension method to paginate an IQueryable<T> objects and can be used across the application
+    // for any entity type
     public static async Task<PaginatedResponseDto<T>> ToPaginatedAsync<T>(this IQueryable<T> query, int pageNumber = 1, int pageSize = 10)
     {
         var totalCount = await query.CountAsync();
