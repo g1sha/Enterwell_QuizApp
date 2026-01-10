@@ -29,14 +29,41 @@
       "id": "9f1b0a5e-381d-4e02-9424-d6a3bd15b18f",
       "request": {
         "method": "GET",
-        "header": [],
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{Bearer}}",
+            "type": "text",
+            "uuid": "88089d0b-6206-46aa-ad82-da3f9bbc78a9"
+          }
+        ],
         "url": {
-          "raw": "{{URL}}/Questions",
+          "raw": "{{URL}}/Questions?pageNumber=1&pageSize=10&filter",
           "host": [
             "{{URL}}"
           ],
           "path": [
             "Questions"
+          ],
+          "query": [
+            {
+              "key": "pageNumber",
+              "value": "1",
+              "type": "text",
+              "uuid": "57c3a933-b078-4137-8037-feecb136e0bf"
+            },
+            {
+              "key": "pageSize",
+              "value": "10",
+              "type": "text",
+              "uuid": "b389abca-64ca-4fe6-861e-0ce1daf68a1e"
+            },
+            {
+              "key": "filter",
+              "value": null,
+              "type": "text",
+              "uuid": "b364c465-2f59-4d68-b6e3-9b90eca87a68"
+            }
           ]
         }
       },
