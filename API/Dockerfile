@@ -9,6 +9,8 @@ WORKDIR /src
 COPY ["API/API.csproj", "API/"]
 COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 COPY ["Core/Core.csproj", "Core/"]
+COPY ["ExporterPlugins/ExporterPlugins.csproj", "ExporterPlugins/"]
+
 RUN dotnet restore "API/API.csproj"
 COPY . .
 WORKDIR "/src/API"
@@ -16,7 +18,9 @@ RUN dotnet build "API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+WORKDIR /src
+RUN dotnet publish "API/API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "ExporterPlugins/ExporterPlugins.csproj" -c $BUILD_CONFIGURATION -o /app/publish/Plugins/Export
 
 FROM base AS final
 WORKDIR /app
