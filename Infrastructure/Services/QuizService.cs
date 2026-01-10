@@ -6,12 +6,17 @@ using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Extensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services;
 
-public class QuizService(QuizContext context) : IQuizService
+public class QuizService(QuizContext context , IHttpContextAccessor httpContextAccessor) : IQuizService
 {
+    // Helper method to get the current user's ID from the HTTP context
+    private string? GetCurrentUserId() => httpContextAccessor.HttpContext?.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+    
+    // Retrieves a paginated list of quizzes
     public async Task<PaginatedResponseDto<QuizDto>> GetAllQuizzesAsync(int pageNumber = 1, int pageSize = 10)
     {
         return await context.Quizzes
@@ -23,6 +28,7 @@ public class QuizService(QuizContext context) : IQuizService
             }).ToPaginatedAsync(pageNumber, pageSize);
     }
 
+    // Retrieves a quiz by its ID, including its questions
     public async Task<QuizDetailDto?> GetQuizByIdAsync(int id)
     {
         return await context.Quizzes
@@ -44,6 +50,7 @@ public class QuizService(QuizContext context) : IQuizService
             : null;
     }
 
+    // Creates a new quiz
     public async Task<QuizDto> CreateQuizAsync(CreateQuizDto quiz)
     {
         var newQuiz = new Quiz
@@ -52,7 +59,10 @@ public class QuizService(QuizContext context) : IQuizService
             Description = quiz.Description,
         };
         
+        newQuiz.SetCreatedBy(GetCurrentUserId()??"Anonymous");
+        
         context.Quizzes.Add(newQuiz);
+        
         await context.SaveChangesAsync();
         
         return new QuizDto
@@ -63,6 +73,7 @@ public class QuizService(QuizContext context) : IQuizService
         };
     }
 
+    // Updates an existing quiz
     public async Task<QuizDto?> UpdateQuizAsync(int id, UpdateQuizDto quiz)
     {
         var existingQuiz = await context.Quizzes.FindAsync(id);
@@ -72,6 +83,8 @@ public class QuizService(QuizContext context) : IQuizService
         }
         existingQuiz.Title = quiz.Title;
         existingQuiz.Description = quiz.Description;
+        existingQuiz.MarkAsUpdated(GetCurrentUserId()??"Anonymous");
+        
         await context.SaveChangesAsync();
         return new QuizDto
         {
@@ -80,7 +93,8 @@ public class QuizService(QuizContext context) : IQuizService
             Description = existingQuiz.Description,
         };
     }
-
+    
+    // Deletes a quiz by its ID
     public async Task<bool> DeleteQuizAsync(int id)
     {
         var existingQuiz = await context.Quizzes.FindAsync(id);
@@ -93,6 +107,7 @@ public class QuizService(QuizContext context) : IQuizService
         return false;
     }
 
+    // Adds a question to a quiz
     public async Task<(bool Success, string? Error)> AddQuestionToQuizAsync(int quizId, AddQuestionToQuizDto dto)
     {
         var quiz = await context.Quizzes.FindAsync(quizId);
@@ -112,12 +127,14 @@ public class QuizService(QuizContext context) : IQuizService
             Quiz = quiz,
             Question = question,
         };
+        quizQuestion.SetCreatedBy(GetCurrentUserId()??"Anonymous");
         
         context.QuizQuestions.Add(quizQuestion);
         await context.SaveChangesAsync();
         return (true, null);
     }
 
+    // Removes a question from a quiz without deleting the question itself
     public async Task<(bool Success, string? Error)> RemoveQuestionFromQuizAsync(int quizId, AddQuestionToQuizDto dto)
     {
         var quizQuestion = await context.QuizQuestions

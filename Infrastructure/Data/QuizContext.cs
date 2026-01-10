@@ -16,6 +16,9 @@ public class QuizContext(DbContextOptions options) : IdentityDbContext<User>(opt
     {
         base.OnModelCreating(modelBuilder);
 
+        // Configure unique constraint on QuizQuestion for (QuizId, QuestionId)
+        // making sure the same question is not added multiple times to the same quiz
+        // and set delete behavior to NoAction to prevent cascading deletes
         modelBuilder.Entity<QuizQuestion>(entity =>
         {
             entity.HasIndex(qq => new { qq.QuizId, qq.QuestionId })
