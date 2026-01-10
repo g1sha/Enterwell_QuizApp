@@ -12,6 +12,7 @@ public interface IQuizService
     Task<QuizDto?> UpdateQuizAsync(int id, UpdateQuizDto quiz);
     Task<bool> DeleteQuizAsync(int id);
     Task<(bool Success, string? Error)> AddQuestionToQuizAsync(int quizId, AddQuestionToQuizDto dto);
+    Task<(bool Success, string? Error)> RemoveQuestionFromQuizAsync(int quizId, AddQuestionToQuizDto dto);
 }
 
 

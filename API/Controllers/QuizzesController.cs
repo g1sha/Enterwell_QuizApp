@@ -58,5 +58,14 @@ public class QuizzesController(IQuizService quizService) : ControllerBase
             return BadRequest(ErrorResponse.Create(error!));
         return NoContent();
     }
+    
+    [HttpDelete("{id:int}/questions")]
+    public async Task<ActionResult> RemoveQuestionFromQuiz(int id, int questionId)
+    {
+        var (success, error) = await quizService.RemoveQuestionFromQuizAsync(id, new AddQuestionToQuizDto { QuestionId = questionId });
+        if (!success)
+            return BadRequest(ErrorResponse.Create(error!));
+        return NoContent();
+    }
 }
 
