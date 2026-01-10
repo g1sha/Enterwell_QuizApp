@@ -79,4 +79,12 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+// Seed Data
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<QuizContext>();
+    await InitialSeed.SeedAsync(context, scope.ServiceProvider.GetRequiredService<UserManager<User>>());
+}
+
 app.Run();
