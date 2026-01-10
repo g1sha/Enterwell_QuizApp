@@ -1,0 +1,226 @@
+{
+  "info": {
+    "_postman_id": "74d48f1f-9b39-4b89-84e8-06ee6ea164ba",
+    "name": "Quizzes",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GetPaginatedQuizzes",
+      "id": "7a0f63ba-1c1c-4eca-a447-e6cb2c850309",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{Bearer}}",
+            "type": "text",
+            "uuid": "40bfcede-f736-49b2-aae2-a1c0c5aabe6f"
+          }
+        ],
+        "url": {
+          "raw": "{{URL}}/Quizzes?pageNumber=1&pageSize=100",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "Quizzes"
+          ],
+          "query": [
+            {
+              "key": "pageNumber",
+              "value": "1",
+              "type": "text",
+              "uuid": "be2de21a-d8dd-411c-ada7-9dd394379f57"
+            },
+            {
+              "key": "pageSize",
+              "value": "100",
+              "type": "text",
+              "uuid": "d6967b1f-3767-4c93-95cf-039f6c084cc4"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetQuiz",
+      "id": "e13737f9-9d36-4514-8fb1-0651184730d3",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{URL}}/Quizzes/4",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "Quizzes",
+            "4"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateQuiz",
+      "id": "24840179-6e5f-4794-9411-742c83da352a",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{Bearer}}",
+            "type": "text",
+            "uuid": "14659071-ff3a-4b9b-9e57-4ddf501903ac"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"strinasdasdg\",\r\n  \"description\": \"strinasaaasg\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL}}/Quizzes/8",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "Quizzes",
+            "8"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DeleteQuiz",
+      "id": "06616760-7c57-4fcc-9091-945a1cbda3ff",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{Bearer}}",
+            "type": "text",
+            "uuid": "9f4467f3-a129-4dc2-8c73-46af6cf84924"
+          }
+        ],
+        "url": {
+          "raw": "{{URL}}/Quizzes/7",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "Quizzes",
+            "7"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CreateQuiz",
+      "id": "ba1bb9f4-0a91-4431-88fc-3e04c5c5c612",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{Bearer}}",
+            "type": "text",
+            "uuid": "393e970b-2a9b-470f-a28d-72e31e7da034"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"questionId\": 3\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL}}/Quizzes/4/questions",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "Quizzes",
+            "4",
+            "questions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "RemoveQuestionFromQuiz",
+      "id": "d279c189-b5e0-4ac0-af7a-d85d2b7af225",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{Bearer}}",
+            "type": "text",
+            "uuid": "6632c2f8-da74-4e6e-9fc5-617e3ab219e3"
+          }
+        ],
+        "url": {
+          "raw": "{{URL}}/Quizzes/4/questions",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "Quizzes",
+            "4",
+            "questions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "QuizCSVExport",
+      "id": "ffad201e-f19d-425d-8c78-edd0da8c1580",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{Bearer}}",
+            "type": "text",
+            "uuid": "74b8235f-29dc-4fa7-9798-03e8303244dd"
+          }
+        ],
+        "url": {
+          "raw": "{{URL}}/Quizzes/4/export?format=csv",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "Quizzes",
+            "4",
+            "export"
+          ],
+          "query": [
+            {
+              "key": "format",
+              "value": "csv",
+              "type": "text",
+              "uuid": "53428541-383d-427e-92a9-56ca70b5b876"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

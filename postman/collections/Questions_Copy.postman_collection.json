@@ -1,0 +1,101 @@
+{
+  "info": {
+    "_postman_id": "9b8768b4-c034-4e8a-9166-7048fa0e8980",
+    "name": "Questions",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GetQuestion",
+      "id": "fe0e2407-7dfa-4dc9-a63d-275a5e1bcd01",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{URL}}/Questions/4",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "Questions",
+            "4"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GetQuestions",
+      "id": "9f1b0a5e-381d-4e02-9424-d6a3bd15b18f",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{URL}}/Questions",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "Questions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "CreateQuestion",
+      "id": "c8d85575-74ed-402c-821f-4ff6ff514012",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"Text\": \"{{$randomLoremSentence}}\",\r\n    \"CorrectAnswer\": \"{{$randomLoremWord}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL}}/Questions",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "Questions"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UpdateQuestion",
+      "id": "f79406a4-5c29-4a3c-91c0-d980c0c2ca6d",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"Text\": \"{{$randomLoremSentence}}\",\r\n    \"CorrectAnswer\": \"{{$randomLoremWord}}\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL}}/Questions/4",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "Questions",
+            "4"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
