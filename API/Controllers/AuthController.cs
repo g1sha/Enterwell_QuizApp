@@ -11,6 +11,11 @@ namespace API.Controllers;
 [AllowAnonymous]
 public class AuthController(AuthService authService) : ControllerBase
 {
+    /// <summary>
+    /// Register a new user
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
     [HttpPost("register")]
     public async Task<ActionResult> Register(RegisterUserDto dto)
     {
@@ -20,6 +25,11 @@ public class AuthController(AuthService authService) : ControllerBase
         return Ok(new { message = "Registration successful !" });
     }
 
+    /// <summary>
+    /// Login an existing user
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns></returns>
     [HttpPost("login")]
     public async Task<ActionResult> Login(LoginUserDto dto)
     {
@@ -29,6 +39,11 @@ public class AuthController(AuthService authService) : ControllerBase
         return Ok(result.Tokens);
     }
     
+    /// <summary>
+    /// Retrieve new JWT token using refresh token
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPost("refresh")]
     public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
     {
