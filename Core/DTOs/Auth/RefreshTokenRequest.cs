@@ -1,6 +1,10 @@
-﻿namespace Core.DTOs.Auth;
+﻿using System.ComponentModel.DataAnnotations;
+using Core.Constants;
+
+namespace Core.DTOs.Auth;
 
 public class RefreshTokenRequest
 {
-    public string RefreshToken { get; set; }
+    [Required(ErrorMessage = ValidationMessages.RefreshTokenRequired)]
+    public required string RefreshToken { get; set; }
 }

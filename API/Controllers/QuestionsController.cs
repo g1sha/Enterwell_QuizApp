@@ -1,4 +1,6 @@
-﻿using Core.DTOs.Question;
+﻿using Core.Constants;
+using Core.DTOs;
+using Core.DTOs.Question;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,10 +25,7 @@ public class QuestionsController(IQuestionService questionService) : ControllerB
         var question = await questionService.GetQuestionByIdAsync(id);
         
         if (question == null)
-        {
-            return NotFound();
-        }
-
+            return NotFound(ErrorResponse.Create(ErrorMessages.QuestionNotFound));
         return Ok(question);
     }
 

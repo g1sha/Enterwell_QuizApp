@@ -1,4 +1,6 @@
-﻿using Core.DTOs.Pagination;
+﻿using Core.Constants;
+using Core.DTOs;
+using Core.DTOs.Pagination;
 using Core.DTOs.Quiz;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +22,9 @@ public class QuizzesController(IQuizService quizService) : ControllerBase
     public async Task<ActionResult<QuizDto>> GetQuiz(int id)
     {
         var quiz = await quizService.GetQuizByIdAsync(id);
-        return quiz==null ? NotFound() : Ok(quiz);
+        if (quiz == null)
+            return NotFound(ErrorResponse.Create(ErrorMessages.QuizNotFound));
+        return Ok(quiz);
     }
 
     [HttpPost]
@@ -40,15 +44,19 @@ public class QuizzesController(IQuizService quizService) : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteQuiz(int id)
     {
-        var deleted= await quizService.DeleteQuizAsync(id);
-        return deleted ? NoContent() : NotFound();
+        var deleted = await quizService.DeleteQuizAsync(id);
+        if (!deleted)
+            return NotFound(ErrorResponse.Create(ErrorMessages.QuizNotFound));
+        return NoContent();
     }
     
     [HttpPost("{id:int}/questions")]
     public async Task<ActionResult> AddQuestionToQuiz(int id, [FromBody] AddQuestionToQuizDto dto)
     {
-        var added = await quizService.AddQuestionToQuizAsync(id, dto);
-        return added ? NoContent() : NotFound();
+        var (success, error) = await quizService.AddQuestionToQuizAsync(id, dto);
+        if (!success)
+            return BadRequest(ErrorResponse.Create(error!));
+        return NoContent();
     }
 }
 

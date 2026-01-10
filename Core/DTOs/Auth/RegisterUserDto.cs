@@ -1,16 +1,24 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Core.Constants;
 
 namespace Core.DTOs.Auth;
 
 public class RegisterUserDto
 {
-    [Required, EmailAddress]
+    [Required(ErrorMessage = ValidationMessages.EmailRequired)]
+    [EmailAddress(ErrorMessage = ValidationMessages.EmailInvalid)]
     public required string Email { get; set; }
-    [Required, MinLength(6)]
+    
+    [Required(ErrorMessage = ValidationMessages.PasswordRequired)]
+    [MinLength(6, ErrorMessage = ValidationMessages.PasswordLength)]
     public required string Password { get; set; }
-    [Required, MaxLength(35)]
+    
+    [Required(ErrorMessage = ValidationMessages.FirstNameRequired)]
+    [MaxLength(35)]
     public required string FirstName { get; set; }
-    [Required, MaxLength(35)]
+    
+    [Required(ErrorMessage = ValidationMessages.LastNameRequired)]
+    [MaxLength(35)]
     public required string LastName { get; set; }
 }
 
