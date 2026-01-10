@@ -1,5 +1,6 @@
 ﻿using Core.Constants;
 using Core.DTOs;
+using Core.DTOs.Pagination;
 using Core.DTOs.Question;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -12,10 +13,9 @@ namespace API.Controllers;
 public class QuestionsController(IQuestionService questionService) : ControllerBase
 {
     [HttpGet]
-    [Authorize]
-    public async Task<ActionResult<IEnumerable<QuestionDto>>> GetQuestions()
+    public async Task<ActionResult<PaginatedResponseDto<QuestionDto>>> GetQuestions([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, [FromQuery] string? filter = null)
     {
-        var questions = await questionService.GetAllQuestionsAsync();
+        var questions = await questionService.GetAllQuestionsAsync(pageNumber, pageSize, filter);
         return Ok(questions);
     }
     

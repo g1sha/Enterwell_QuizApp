@@ -117,4 +117,15 @@ public class QuizService(QuizContext context) : IQuizService
         await context.SaveChangesAsync();
         return (true, null);
     }
+
+    public async Task<(bool Success, string? Error)> RemoveQuestionFromQuizAsync(int quizId, AddQuestionToQuizDto dto)
+    {
+        var quizQuestion = await context.QuizQuestions
+            .FirstOrDefaultAsync(q => q.QuestionId == dto.QuestionId && q.QuizId == quizId);
+        if (quizQuestion == null)
+            return (false, ErrorMessages.QuizOrQuestionNotFound);
+        context.QuizQuestions.Remove(quizQuestion);
+        await context.SaveChangesAsync();
+        return (true, null);
+    }
 }

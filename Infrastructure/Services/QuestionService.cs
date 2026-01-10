@@ -1,21 +1,29 @@
-﻿using Core.DTOs.Question;
+﻿using Core.DTOs.Pagination;
+using Core.DTOs.Question;
 using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services;
 
 public class QuestionService(QuizContext context) : IQuestionService
 {
-    public async Task<IEnumerable<QuestionDto>> GetAllQuestionsAsync()
+    public async Task<PaginatedResponseDto<QuestionDto>> GetAllQuestionsAsync(int pageNumber = 1, int pageSize = 10, string ?filter = null)
     {
-        return await context.Questions.Select(q => new QuestionDto
+        var query = context.Questions.AsQueryable();
+
+        if (!string.IsNullOrEmpty(filter))
+        {
+            query = query.Where(q => q.Text.Contains(filter));
+        }
+        return await query.Select(q => new QuestionDto
         {
             Id = q.Id,
             Text = q.Text,
             CorrectAnswer = q.CorrectAnswer,
-        }).ToListAsync();
+        }).ToPaginatedAsync(pageNumber, pageSize);
     }
 
     public async Task<QuestionDto?> GetQuestionByIdAsync(int id)
