@@ -1,0 +1,93 @@
+{
+  "info": {
+    "_postman_id": "da5b1e3a-2945-4cd0-bd86-30dfa27ecb5d",
+    "name": "Auth",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "RegisterUser",
+      "id": "219bc5c4-0a0d-4d29-9cfc-304c617c2cbd",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"user4@example.com\",\r\n  \"password\": \"Astring123.\",\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL}}/auth/register",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "auth",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "LoginUser",
+      "id": "2f63775f-1ed2-490d-beff-94e90c9ac5e2",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"user4@example.com\",\r\n  \"password\": \"Astring123.\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL}}/auth/login",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "RefreshToken",
+      "id": "8c56bbf0-f751-419f-9096-df11e0acaf0b",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"refreshToken\": \"/GwwQtibsLO50dKOsCgamd8lkwtVSz0zUiHzHjiI4bjityqR5JjRCHWq1J/8CWdtb0rRQAxInWR1htMTUNeFi1CS4vsGS8470ViP3zke5fFipJBK048a7aS7Gu0yVyx7a3FWymcJ9Wbh9F9WH/wD+G1B0rYkCiQ183eHLBahXX/QSGzsFseYdR8uu7KdBJGW1jyAE9udvScZvWaPGPGiCR6xq+TGz9WDG8EgEOPxWX4EyAvr3MFwQnfqCDxJtXxrQ1iBdh8SWfotxEMQ45V2yG0IVV6zF/lQY9OVQf9LPJQ+rL10WhQMyQ72nwq/611L7aXb2FlHN5k9hqN+imITPHM6NhOZnMiRzWsYePCQSZ1AP3hA5BL2eOxXCxivZsxafqy7f6lJHkKTAiRJk2q8LjtXCV5JnI/rIdzzNOzw7rspsOhLfIyZduriQf0dXLxfHpXmsMG/L2xVEpEcDCTuAXh00kbGZYXMqqUgQIS9sgylYuKctnFf/Nhio+/iInMSS/GU+4LwG7BJA9zRAKuLVvnDhtLC4I6KWbRzw7PuiVOvH28NDRG2Z2ArGQ71BmwTmyNeEmVRgC2NF69TTn/GjQA10gHg9FuZss1RfshfXtsvTOuY7pJAiF/o0cpw+VCLmzPUKTuPLXdY2pAMca7OyYhx2w8AKZjp94QCyJDCKAI=\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL}}/auth/refresh",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "auth",
+            "refresh"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
