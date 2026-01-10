@@ -1,14 +1,8 @@
-﻿
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+﻿using Core.DTOs;
 using Core.DTOs.Auth;
-using Core.Entities;
-using Infrastructure.Data;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
 namespace API.Controllers;
 
@@ -22,7 +16,7 @@ public class AuthController(AuthService authService) : ControllerBase
     {
         var result=await authService.RegisterAsync(dto);
         if (!result.IsSuccessful)
-            return BadRequest(new { result.Errors});
+            return BadRequest(ErrorResponse.Create(result.Errors));
         return Ok(new { message = "Registration successful !" });
     }
 
@@ -31,8 +25,8 @@ public class AuthController(AuthService authService) : ControllerBase
     {
         var result = await authService.LoginAsync(dto);
         if (!result.IsSuccessful)
-            return BadRequest(new { result.Errors});
-        return Ok(new { result.Token, result.RefreshToken }); 
+            return BadRequest(ErrorResponse.Create(result.Errors));
+        return Ok(result.Tokens);
     }
     
     [HttpPost("refresh")]
@@ -40,7 +34,7 @@ public class AuthController(AuthService authService) : ControllerBase
     {
         var result = await authService.RefreshTokenAsync(request.RefreshToken);
         if (!result.IsSuccessful)
-            return Unauthorized(new { result.Errors });
-        return Ok(new { result.Token, result.RefreshToken });
+            return Unauthorized(ErrorResponse.Create(result.Errors));
+        return Ok(result.Tokens);
     }
 }

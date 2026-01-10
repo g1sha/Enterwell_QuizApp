@@ -1,10 +1,9 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Core.Constants;
 using Core.DTOs.Auth;
 using Core.Entities;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -26,20 +25,20 @@ public class AuthService(UserManager<User> userManager, IConfiguration configura
         };
         var result = await userManager.CreateAsync(user, dto.Password);
         if (!result.Succeeded)
-            return new AuthResult { IsSuccessful = false, Errors = result.Errors.Select(e => e.Description).ToList() };
+            return AuthResult.Failure(result.Errors.Select(e => e.Description));
         
-        return new AuthResult { IsSuccessful = true };
+        return AuthResult.Success();
     }
     
     public async Task<AuthResult> LoginAsync(LoginUserDto dto)
     {
         var user = await userManager.FindByEmailAsync(dto.Email);
         if (user == null)
-            return new AuthResult{IsSuccessful = false, Errors = new List<string>{"Invalid email."}};
+            return AuthResult.Failure(ErrorMessages.InvalidCredentials);
         
         var passwordValid = await userManager.CheckPasswordAsync(user, dto.Password);
         if (!passwordValid)
-            return new AuthResult{IsSuccessful = false, Errors = new List<string>{"Invalid password."}};
+            return AuthResult.Failure(ErrorMessages.InvalidCredentials);
 
         user.LastLoginAt= DateTime.UtcNow;
         user.RefreshToken = GenerateRefreshToken();
@@ -47,7 +46,7 @@ public class AuthService(UserManager<User> userManager, IConfiguration configura
         await userManager.UpdateAsync(user);
         
         var token = await GenerateJwtToken(user);
-        return new AuthResult{IsSuccessful = true, Token = $"Bearer {token}", RefreshToken = user.RefreshToken};
+        return AuthResult.Success($"Bearer {token}", user.RefreshToken);
     }
     
     private async Task<string> GenerateJwtToken(User user)
@@ -88,7 +87,7 @@ public class AuthService(UserManager<User> userManager, IConfiguration configura
     {
         var user = await userManager.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
         if (user == null || user.RefreshTokenExpiryTime < DateTime.UtcNow)
-            return new AuthResult { IsSuccessful = false, Errors = new List<string> { "Invalid or expired refresh token !" } };
+            return AuthResult.Failure(ErrorMessages.InvalidOrExpiredRefreshToken);
 
         var token = await GenerateJwtToken(user);
         
@@ -97,6 +96,6 @@ public class AuthService(UserManager<User> userManager, IConfiguration configura
         user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(7);
         await userManager.UpdateAsync(user);
         
-        return new AuthResult { IsSuccessful = true, Token = $"Bearer {token}", RefreshToken = user.RefreshToken };
+        return AuthResult.Success($"Bearer {token}", user.RefreshToken);
     }
 }

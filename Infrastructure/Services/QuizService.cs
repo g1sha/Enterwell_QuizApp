@@ -1,4 +1,5 @@
-﻿using Core.DTOs.Pagination;
+﻿using Core.Constants;
+using Core.DTOs.Pagination;
 using Core.DTOs.Question;
 using Core.DTOs.Quiz;
 using Core.Entities;
@@ -92,18 +93,19 @@ public class QuizService(QuizContext context) : IQuizService
         return false;
     }
 
-    public async Task<bool> AddQuestionToQuizAsync(int quizId, AddQuestionToQuizDto dto)
+    public async Task<(bool Success, string? Error)> AddQuestionToQuizAsync(int quizId, AddQuestionToQuizDto dto)
     {
-        var already_exists = await context.QuizQuestions.AnyAsync(q => q.QuestionId == dto.QuestionId && q.QuizId == quizId);
-        
-        if (already_exists)
-            return false;
-
         var quiz = await context.Quizzes.FindAsync(quizId);
         var question = await context.Questions.FindAsync(dto.QuestionId);
         
         if (quiz == null || question == null)
-            return false;
+            return (false, ErrorMessages.QuizOrQuestionNotFound);
+
+        var alreadyExists = await context.QuizQuestions
+            .AnyAsync(q => q.QuestionId == dto.QuestionId && q.QuizId == quizId);
+        
+        if (alreadyExists)
+            return (false, ErrorMessages.QuestionAlreadyInQuiz);
                 
         var quizQuestion = new QuizQuestion
         {
@@ -113,6 +115,6 @@ public class QuizService(QuizContext context) : IQuizService
         
         context.QuizQuestions.Add(quizQuestion);
         await context.SaveChangesAsync();
-        return true;
+        return (true, null);
     }
 }
