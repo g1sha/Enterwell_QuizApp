@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <!-- export u api bin folder -->
+        <OutputPath>..\API\bin\$(Configuration)\net8.0\Plugins\Export\</OutputPath>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <!-- export u api bin folder -->
+        <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+        <RootNamespace>ExporterPlugins</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.ComponentModel.Composition" Version="8.0.0">
+        <Private>false</Private>
+        <ExcludeAssets>runtime</ExcludeAssets>
+      </PackageReference>
+    </ItemGroup>
+
+</Project>
