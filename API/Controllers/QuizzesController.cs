@@ -5,10 +5,12 @@ using Core.DTOs.Question;
 using Core.DTOs.Quiz;
 using Core.Interfaces;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class QuizzesController(IQuizService quizService) : ControllerBase

@@ -8,6 +8,12 @@ public static class SwaggerConfig
     {
         services.AddSwaggerGen(swgr =>
         {
+            swgr.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "Enterwell Quiz App",
+                Version = "v1",
+                Description =  "**Note: Enter your token without 'Bearer ' prefix from erwsponse in Authorize prompt**"
+            });
             var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
             swgr.IncludeXmlComments(xmlPath);
