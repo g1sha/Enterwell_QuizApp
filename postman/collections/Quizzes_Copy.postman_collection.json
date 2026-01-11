@@ -64,6 +64,40 @@
       "response": []
     },
     {
+      "name": "CreateQuiz",
+      "id": "04ca9a20-3b95-4e3d-a77d-acd770457306",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "{{Bearer}}",
+            "type": "text",
+            "uuid": "12711cf9-f523-426b-8f3e-cc583c39d46d"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"string\",\r\n  \"description\": \"string\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{URL}}/Quizzes",
+          "host": [
+            "{{URL}}"
+          ],
+          "path": [
+            "Quizzes"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "UpdateQuiz",
       "id": "24840179-6e5f-4794-9411-742c83da352a",
       "request": {
@@ -125,7 +159,7 @@
       "response": []
     },
     {
-      "name": "CreateQuiz",
+      "name": "AddQuestionToQuiz",
       "id": "ba1bb9f4-0a91-4431-88fc-3e04c5c5c612",
       "request": {
         "method": "POST",
@@ -173,8 +207,17 @@
             "uuid": "6632c2f8-da74-4e6e-9fc5-617e3ab219e3"
           }
         ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
-          "raw": "{{URL}}/Quizzes/4/questions",
+          "raw": "{{URL}}/Quizzes/4/questions?questionId=2",
           "host": [
             "{{URL}}"
           ],
@@ -182,6 +225,13 @@
             "Quizzes",
             "4",
             "questions"
+          ],
+          "query": [
+            {
+              "key": "questionId",
+              "value": "2",
+              "uuid": "127fc7e3-68dc-427c-b32d-8d51d1998611"
+            }
           ]
         }
       },
