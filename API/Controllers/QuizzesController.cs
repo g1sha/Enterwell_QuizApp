@@ -130,7 +130,13 @@ public class QuizzesController(IQuizService quizService) : ControllerBase
     
         try
         {
-            var fileBytes = loader.Export(format, quiz.Questions);
+            // removed answers from export after reading instructions again
+            var fileBytes = loader.Export(format, quiz.Questions
+                .Select(q => new ExportQuestionDto
+                {
+                    Id = q.Id,
+                    Text = q.Text,
+                }));
             var formatInfo = loader.GetAvailableFormats()
                 .First(f => f.Format.Equals(format, StringComparison.OrdinalIgnoreCase));
         
