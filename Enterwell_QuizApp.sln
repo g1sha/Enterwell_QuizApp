@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExporterPlugins", "ExporterPlugins\ExporterPlugins.csproj", "{B01D3537-04CF-49E6-ABC5-ABA1B2A19F88}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuizApp.Tests", "QuizApp.Tests\QuizApp.Tests.csproj", "{5C311594-0EC8-4CB3-B9D6-D898CBE9204F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{B01D3537-04CF-49E6-ABC5-ABA1B2A19F88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B01D3537-04CF-49E6-ABC5-ABA1B2A19F88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B01D3537-04CF-49E6-ABC5-ABA1B2A19F88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C311594-0EC8-4CB3-B9D6-D898CBE9204F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C311594-0EC8-4CB3-B9D6-D898CBE9204F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C311594-0EC8-4CB3-B9D6-D898CBE9204F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C311594-0EC8-4CB3-B9D6-D898CBE9204F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
