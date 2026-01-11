@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -10,6 +11,8 @@ public class ExporterController : Controller
     /// </summary>
     /// <param name="factory"></param>
     /// <returns></returns>
+    
+    [Authorize]
     [HttpGet("api/export/formats")]
     public IActionResult GetExportFormats([FromServices] IExportServiceFactory factory)
     {
